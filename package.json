@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server/index.js",
-    "react-dev": "webpack -d --watch",
+    "test": "webpack -d --watch",
     "build": "webpack -p --progress"
   },
   "repository": {
@@ -29,7 +29,10 @@
     "cors": "^2.8.5",
     "css-loader": "^4.2.1",
     "express": "^4.17.1",
-    "mongoose": "^5.10.0",
+    "faker": "^5.1.0",
+    "mongodb": "^3.6.0",
+    "mongoose": "^5.10.1",
+    "newrelic": "^6.13.0",
     "nodemon": "^2.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

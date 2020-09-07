@@ -70,7 +70,8 @@ class App extends React.Component {
     let callback = (mutationsList, observer) => {
       let id = mutationsList[0].target.className;
       if (mutationsList[0].attributeName === 'class') {
-        fetch(`http://ec2-3-15-234-135.us-east-2.compute.amazonaws.com/api/products/${id}`)
+        // fetch(`http://ec2-3-15-234-135.us-east-2.compute.amazonaws.com/api/products/${id}`)
+        fetch(`http://localhost:5000/api/products/${id}`)
           .then(response => response.json())
           .then(data => {
             this.setState({
@@ -96,7 +97,7 @@ class App extends React.Component {
     const observer = new MutationObserver(callback);
 
     // Start observing the target node for configured mutations
-    observer.observe(targetNode, config);
+    // observer.observe(targetNode, config);
   }
 
   // listens to changes of star rating from the ratings component
@@ -129,6 +130,7 @@ class App extends React.Component {
 
 
   render() {
+    console.log('This is state', this.state)
     // destructures this.state
     const { department, subDept, brand, sku, location,
       avgRating, name, images, mainImage, price, colors, option, clicked

@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
-const videoGameData = require("./videoGameData");
-mongoose.connect("mongodb://localhost/front-end-capstone", { useNewUrlParser: true, useUnifiedTopology: true });
+const output = require("./output");
+mongoose.connect("mongodb://localhost/sdc", { useNewUrlParser: true, useUnifiedTopology: true });
 
+// Create schema for database
 let productSchema = mongoose.Schema({
   uniqueID: Number,
   name: String,
@@ -13,46 +14,56 @@ let productSchema = mongoose.Schema({
   sku: Number,
   price: Number,
   avgRating: Number,
-  colors: Array,
-  reviews: Array,
-  questions: {
-    question: String,
-    answer: String,
-  },
-  images: Array,
-  peopleAlsoBought: Array,
-  peopleAlsoViewed: Array,
-  recentlyViewed: Boolean,
 });
 
+// Create a Product module
 let Product = mongoose.model("Product", productSchema);
 
-// saves input object variable to db based on the above schema
-let saveToDB = (model) => {
-  var new_product = new Product({
-    uniqueID: model.uniqueID,
-    name: model.name,
-    description: model.description,
-    brand: model.brand,
-    department: model.department,
-    color: model.color,
-    subDept: model.subDept,
-    sku: model.sku,
-    price: model.price,
-    avgRating: model.avgRating,
-    colors: model.colors,
-    reviews: model.reviews,
-    questions: {
-      question: model.questions.question,
-      answer: model.questions.answer,
-    },
-    images: model.images,
-    peopleAlsoBought: model.peopleAlsoBought,
-    peopleAlsoViewed: model.peopleAlsoViewed,
-    recentlyViewed: model.recentlyViewed,
+// let saveToDatabase = (model, callback) => {
+//   Product.findOne({ uniqueID: model.uniqueID }, (err, data) => {
+//     if (err) {
+//       console.log("Error posting data-db", err);
+//     } else {
+// let new_product = new Product({
+//   uniqueID: model.uniqueID,
+//   name: model.name,
+//   description: model.description,
+//   brand: model.brand,
+//   department: model.department,
+//   color: model.color,
+//   subDept: model.subDept,
+//   sku: model.sku,
+//   price: model.price,
+//   avgRating: model.avgRating
+//       });
+//       new_product.save((err, data) => {
+//         if (err) {
+//           console.log('Error posting from db')
+//           callback(err, null)
+//         } else {
+//           callback(null, data)
+//         }
+//       });
+//     };
+//     console.log(`Created ${model.uniqueID}`)
+//   })
+// }
+
+
+const saveToDatabase = (post) => {
+  let new_product = new Product({
+    uniqueID: post.uniqueID,
+    name: post.name,
+    description: post.description,
+    brand: post.brand,
+    department: post.department,
+    color: post.color,
+    subDept: post.subDept,
+    sku: post.sku,
+    price: post.price,
+    avgRating: post.avgRating
   });
-  console.log("creating a schema");
-  new_product.save();
+  return new_product.save();
 };
 
 // returns product object that matches id variable
@@ -62,7 +73,7 @@ let grabOne = (id, callback) => {
 
 // * Seeds Database
 
-// let promiseData = videoGameData.data.map(async (product) => {
+// let promiseData = output.data.map(async (product) => {
 //   return product;
 // });
 // Promise.all(promiseData).then((products) => {
@@ -71,6 +82,7 @@ let grabOne = (id, callback) => {
 //   });
 // });
 
+
 module.exports = {
-  grabOne
+  Product, grabOne, saveToDatabase
 }
